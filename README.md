@@ -14,6 +14,8 @@ Research behind the product choices: `research/` in the project files (2026-10-0
 | Articles | `src/content/articles/*.md` | `draft: true` by default. Drafts show in `npm run dev` only, never in a production build |
 | Database | `supabase/migrations/001_init.sql` | products, affiliate_programs, articles, article_products, keywords, pins, clicks, conversions, campaigns |
 | Checks | `npm run check:links` | Validates the registry, article product references and the redirect logic |
+| Pins | `npm run pins` | Renders `marketing/pins.json` to `public/pins/*.png` + `marketing/pins-bulk.csv` (needs Chromium: set `CHROME_PATH`; `PIN_START=YYYY-MM-DD` sets the first publish date) |
+| Marketing | `marketing/` | Pinterest profile and boards, keyword list, 30-day content plan |
 
 URL structure: `/guides/ /best/ /comparisons/ /alternatives/ /reviews/ /tools/<category>/ /go/<product>/` plus `/about/ /contact/ /privacy/ /cookies/ /affiliate-disclosure/`.
 
