@@ -1,16 +1,36 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site } from '../site.config.mjs';
-import { getArticles, SECTION_LABELS, categories } from '../lib/data.js';
+import { getArticles, categories } from '../lib/data.js';
 const latest = (await getArticles()).slice(0, 6);
+const ld = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebSite', name: site.name, url: site.url },
+    { '@type': 'Organization', name: site.name, url: site.url, logo: new URL('/og.png', site.url).href },
+  ],
+});
 ---
-<Base>
-  <h1>{site.name}</h1>
-  <p>{site.tagline}</p>
-  <h2>Latest</h2>
-  {latest.length ? <ul>{latest.map((a) => <li><a href={`/${a.data.section}/${a.id}/`}>{a.data.title}</a></li>)}</ul> : <p class="muted">The first guides are on their way.</p>}
-  <h2>Browse</h2>
-  <ul>{Object.entries(SECTION_LABELS).map(([k, v]) => <li><a href={`/${k}/`}>{v}</a></li>)}</ul>
-  <h2>Tool categories</h2>
-  <ul>{Object.entries(categories).map(([k, v]) => <li><a href={`/tools/${k}/`}>{v}</a></li>)}</ul>
+<Base description={site.tagline}>
+  <script slot="head" type="application/ld+json" set:html={ld} />
+  <section class="hero">
+    <p class="kicker">{site.name}</p>
+    <h1>Build your creator business with tools that don't eat your budget</h1>
+    <p class="lead">Honest, hands-on guides to email, course, community, Pinterest and website tools — free plans first, upgrades only when they pay for themselves.</p>
+    <p class="ctas"><a class="btn" href="/start-here/">Start here</a> <a class="btn ghost" href="/free-plans/">Free plans compared</a></p>
+  </section>
+
+  <h2>Who this is for</h2>
+  <p>Beginners and solo creators who want to sell digital products, grow an email list or start a newsletter — and would rather spend money on growth than on software they don't need yet.</p>
+
+  <h2>Latest guides</h2>
+  {latest.length
+    ? <ul>{latest.map((a) => <li><a href={`/${a.data.section}/${a.id}/`}>{a.data.title}</a></li>)}</ul>
+    : <p class="muted">The first hands-on guides are being tested and written. Meanwhile, see <a href="/free-plans/">which tools have a real free plan</a>.</p>}
+
+  <h2>Browse tools</h2>
+  <div class="grid">{Object.entries(categories).map(([k, v]) => <a class="card" href={`/tools/${k}/`}>{v}</a>)}</div>
+
+  <h2>How we work</h2>
+  <p>We sign up for the tools we write about and test them ourselves. Some links are advertising links, marked “(ad)” — <a href="/affiliate-disclosure/">here's how we make money</a>.</p>
 </Base>

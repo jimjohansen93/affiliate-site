@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import Disclosure from '../components/Disclosure.astro';
+import AffLink from '../components/AffLink.astro';
+import { products, categories } from '../lib/data.js';
+const groups = Object.entries(categories)
+  .map(([k, label]) => ({ label, items: products.filter((p) => p.category === k) }))
+  .filter((g) => g.items.length);
+const checked = products.map((p) => p.lastVerified).sort().at(-1);
+---
+<Base title="Free Plans Compared: Creator Tools You Can Start With for $0"
+  description="Which creator tools have a real free plan? Email, course, community, social media and website tools compared, checked against each vendor's pricing page.">
+  <h1>Free plans compared: creator tools you can start with for $0</h1>
+  <Disclosure />
+  <p>Starting an online business doesn't have to start with subscriptions. This page lists which popular creator tools have a free plan, which only offer a trial, and what the cheapest paid plan costs.</p>
+  <p class="muted">Every row was checked against the vendor's own pricing page on {checked}. Plans change often, so follow the “source” link before you decide.</p>
+  {groups.map((g) => (
+    <section>
+      <h2>{g.label}</h2>
+      <table>
+        <thead><tr><th>Tool</th><th>Free plan</th><th>Trial / guarantee</th><th>Paid from</th><th>Source</th></tr></thead>
+        <tbody>
+          {g.items.map((p) => (
+            <tr>
+              <td><AffLink slug={p.slug} /></td>
+              <td>{p.freePlan ?? 'No'}</td>
+              <td>{p.trial ?? '—'}</td>
+              <td>{p.priceFrom}</td>
+              <td><a href={p.pricingUrl} rel="nofollow noopener" target="_blank">pricing page</a></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+  ))}
+  <h2>How to use free plans without getting stuck</h2>
+  <ul>
+    <li><strong>Check what you'll outgrow first.</strong> For an email list it's usually the subscriber limit; for social schedulers it's the number of posts or accounts.</li>
+    <li><strong>Look at the price of the next step.</strong> A generous free plan with an expensive first paid tier can cost more later than a cheap paid plan now.</li>
+    <li><strong>Export early.</strong> Make sure you can download your subscribers or content before you build on a tool.</li>
+  </ul>
+</Base>

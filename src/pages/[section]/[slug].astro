@@ -4,6 +4,7 @@ import Disclosure from '../../components/Disclosure.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import { getArticles, getProduct } from '../../lib/data.js';
 import { render } from 'astro:content';
+import { site } from '../../site.config.mjs';
 export async function getStaticPaths() {
   return (await getArticles()).map((entry) => ({ params: { section: entry.data.section, slug: entry.id }, props: { entry } }));
 }
@@ -12,8 +13,12 @@ const { Content } = await render(entry);
 const d = entry.data;
 const items = d.products.map(getProduct);
 const faqLd = d.faq.length ? JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: d.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }) : null;
+const articleLd = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Article', headline: d.title, description: d.description,
+  datePublished: d.published?.toISOString(), dateModified: (d.updated ?? d.published)?.toISOString(),
+  author: { '@type': 'Organization', name: site.name, url: site.url }, publisher: { '@type': 'Organization', name: site.name } });
 ---
 <Base title={d.seoTitle ?? d.title} description={d.description} noindex={d.draft}>
+  <script slot="head" type="application/ld+json" set:html={articleLd} />
   {faqLd && <script slot="head" type="application/ld+json" set:html={faqLd} />}
   {d.draft && <p class="draft-banner">DRAFT – not published. Needs human review and first-hand testing.</p>}
   <article>

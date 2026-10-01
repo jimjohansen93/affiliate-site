@@ -19,6 +19,8 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonical} />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content={new URL('/og.png', site.url).href} />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="sitemap" href="/sitemap-index.xml" />
   <slot name="head" />
 </head>
@@ -26,13 +28,14 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
   <header class="site-header">
     <a class="brand" href="/">{site.name}</a>
     <nav>
-      {Object.entries(SECTION_LABELS).map(([k, v]) => <a href={`/${k}/`}>{v}</a>)}
-      <a href="/tools/">Tools</a>
+      <a href="/start-here/">Start here</a>
+      {['guides', 'best', 'comparisons', 'reviews'].map((k) => <a href={`/${k}/`}>{SECTION_LABELS[k]}</a>)}
+      <a href="/free-plans/">Free plans</a>
     </nav>
   </header>
   <main><slot /></main>
   <footer class="site-footer">
-    <p>{site.name} · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/affiliate-disclosure/">Affiliate disclosure</a> · <a href="/privacy/">Privacy</a> · <a href="/cookies/">Cookies</a></p>
+    <p>{site.name} · <a href="/about/">About</a> · <a href="/tools/">All tools</a> · <a href="/alternatives/">Alternatives</a> · <a href="/contact/">Contact</a> · <a href="/affiliate-disclosure/">Affiliate disclosure</a> · <a href="/privacy/">Privacy</a> · <a href="/cookies/">Cookies</a></p>
   </footer>
   <script is:inline>
     // Pass the visit source to /go/ links so clicks can be attributed. Reads only the current URL and referrer; stores nothing.

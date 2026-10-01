@@ -42,6 +42,13 @@ for (const p of pins) {
   await page.setContent(html(p), { waitUntil: 'networkidle' });
   await page.screenshot({ path: new URL(`public/pins/${p.id}.png`, root).pathname });
 }
+// Default social sharing image (1200x630)
+await page.setViewportSize({ width: 1200, height: 630 });
+await page.setContent(`<!doctype html><html><head><style>@font-face{font-family:P;font-weight:800;src:url(${font(800)})}@font-face{font-family:P;font-weight:500;src:url(${font(500)})}
+  body{margin:0;width:1200px;height:630px;box-sizing:border-box;padding:80px;background:${STYLES.a.bg};color:#fff;font-family:P;display:flex;flex-direction:column;justify-content:center}
+  h1{font-weight:800;font-size:92px;margin:0;line-height:1.05}.bar{width:120px;height:12px;background:${STYLES.a.accent};border-radius:6px;margin:36px 0}
+  p{font-weight:500;font-size:38px;margin:0;opacity:.9}</style></head><body><h1>${esc(site.name)}</h1><div class="bar"></div><p>Honest guides to affordable creator tools</p></body></html>`, { waitUntil: 'networkidle' });
+await page.screenshot({ path: new URL('public/og.png', root).pathname });
 await browser.close();
 
 // Bulk-upload CSV: one pin every 2 days, so pins are spread out (Pinterest discourages bulk affiliate pinning).
