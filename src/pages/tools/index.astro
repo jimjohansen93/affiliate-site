@@ -1,0 +1,10 @@
+---
+import Base from '../../layouts/Base.astro';
+import { categories, products } from '../../lib/data.js';
+---
+<Base title="Tools" description="Tools for creators, grouped by category.">
+  <h1>Tools</h1>
+  {Object.entries(categories).map(([k, v]) => (
+    <section><h2><a href={`/tools/${k}/`}>{v}</a></h2><p class="muted">{products.filter((p) => p.category === k).map((p) => p.name).join(', ')}</p></section>
+  ))}
+</Base>

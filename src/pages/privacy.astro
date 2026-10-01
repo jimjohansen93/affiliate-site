@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../site.config.mjs';
+---
+<Base title="Privacy policy" noindex>
+  <h1>Privacy policy</h1>
+  <p class="draft-banner">DRAFT – must be reviewed before launch. Not legal advice.</p>
+  <p>Controller: {site.owner}, {site.country}. Contact: {site.contactEmail}.</p>
+  <h2>What we collect</h2>
+  <ul>
+    <li><strong>Clicks on advertising links.</strong> When you click a link starting with <code>/go/</code> we record which product, which page, the visit source (for example “pinterest”), campaign name, the referring site's domain, your country as reported by our hosting provider, and the time. We do not store your IP address, and we cannot identify you from this data.</li>
+    <li><strong>Hosting.</strong> Our host (Cloudflare) processes technical data such as IP addresses to deliver and protect the site. <!-- TODO: link Cloudflare's privacy policy and DPA --></li>
+  </ul>
+  <h2>Cookies</h2>
+  <p>This site does not set its own cookies. See the <a href="/cookies/">cookie page</a> for what happens when you leave our site through an advertising link.</p>
+  <h2>Your rights</h2>
+  <p>You can ask for access, correction or deletion, and complain to Datatilsynet (the Norwegian Data Protection Authority).</p>
+</Base>

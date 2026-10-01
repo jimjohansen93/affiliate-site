@@ -1,0 +1,13 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getArticles, SECTION_LABELS } from '../../lib/data.js';
+export function getStaticPaths() {
+  return Object.keys(SECTION_LABELS).map((section) => ({ params: { section } }));
+}
+const { section } = Astro.params;
+const list = await getArticles(section);
+---
+<Base title={SECTION_LABELS[section]}>
+  <h1>{SECTION_LABELS[section]}</h1>
+  {list.length ? <ul>{list.map((a) => <li><a href={`/${section}/${a.id}/`}>{a.data.title}</a>{a.data.draft && ' (draft)'}</li>)}</ul> : <p class="muted">Nothing published here yet.</p>}
+</Base>

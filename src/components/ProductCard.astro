@@ -1,0 +1,9 @@
+---
+import AffLink from './AffLink.astro';
+const { product: p } = Astro.props;
+---
+<div class="card">
+  <h3>{p.name}</h3>
+  <p class="muted">{p.priceFrom}</p>
+  <p><AffLink slug={p.slug} label={`Visit ${p.name}`} button /></p>
+</div>

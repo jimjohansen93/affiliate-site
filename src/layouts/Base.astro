@@ -1,0 +1,54 @@
+---
+import { site } from '../site.config.mjs';
+import { SECTION_LABELS } from '../lib/data.js';
+import '../styles/global.css';
+const { title, description = site.tagline, noindex = false } = Astro.props;
+const fullTitle = title ? `${title} | ${site.name}` : site.name;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex" />}
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:type" content="website" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <slot name="head" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">{site.name}</a>
+    <nav>
+      {Object.entries(SECTION_LABELS).map(([k, v]) => <a href={`/${k}/`}>{v}</a>)}
+      <a href="/tools/">Tools</a>
+    </nav>
+  </header>
+  <main><slot /></main>
+  <footer class="site-footer">
+    <p>{site.name} · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/affiliate-disclosure/">Affiliate disclosure</a> · <a href="/privacy/">Privacy</a> · <a href="/cookies/">Cookies</a></p>
+  </footer>
+  <script is:inline>
+    // Pass the visit source to /go/ links so clicks can be attributed. Reads only the current URL and referrer; stores nothing.
+    (function () {
+      var q = new URLSearchParams(location.search);
+      var src = q.get('utm_source');
+      if (!src && document.referrer) { try { var h = new URL(document.referrer).hostname; if (h !== location.hostname) src = h; } catch (e) {} }
+      var camp = q.get('utm_campaign');
+      if (!src && !camp) return;
+      document.querySelectorAll('a.aff').forEach(function (a) {
+        var u = new URL(a.href);
+        if (src) u.searchParams.set('src', src);
+        if (camp) u.searchParams.set('c', camp);
+        a.href = u.toString();
+      });
+    })();
+  </script>
+</body>
+</html>

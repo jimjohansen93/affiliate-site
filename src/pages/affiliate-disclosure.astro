@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../site.config.mjs';
+---
+<Base title="Affiliate disclosure" description="How this site makes money.">
+  <h1>Affiliate disclosure</h1>
+  <!-- REVIEW: wording based on Forbrukertilsynet's guidance (2026) and the FTC Endorsement Guides. Not legal advice. -->
+  <p>{site.name} is funded by affiliate commissions. Some links on this site are <strong>advertising links</strong>: if you click one and buy a product, the company pays us a commission. The price you pay is the same.</p>
+  <p>Every advertising link is marked “(ad)” where it appears, and articles that contain such links say so at the top.</p>
+  <p>Commissions never decide what we recommend. We include tools we don't earn from when they are the better choice for the reader.</p>
+  <p>Affiliate links on this site go through an address that starts with <code>/go/</code>. That lets us count clicks and update links in one place.</p>
+</Base>

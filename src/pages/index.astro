@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../site.config.mjs';
+import { getArticles, SECTION_LABELS, categories } from '../lib/data.js';
+const latest = (await getArticles()).slice(0, 6);
+---
+<Base>
+  <h1>{site.name}</h1>
+  <p>{site.tagline}</p>
+  <h2>Latest</h2>
+  {latest.length ? <ul>{latest.map((a) => <li><a href={`/${a.data.section}/${a.id}/`}>{a.data.title}</a></li>)}</ul> : <p class="muted">The first guides are on their way.</p>}
+  <h2>Browse</h2>
+  <ul>{Object.entries(SECTION_LABELS).map(([k, v]) => <li><a href={`/${k}/`}>{v}</a></li>)}</ul>
+  <h2>Tool categories</h2>
+  <ul>{Object.entries(categories).map(([k, v]) => <li><a href={`/tools/${k}/`}>{v}</a></li>)}</ul>
+</Base>

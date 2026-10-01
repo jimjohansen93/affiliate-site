@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import Disclosure from '../../components/Disclosure.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { categories, products } from '../../lib/data.js';
+export function getStaticPaths() {
+  return Object.keys(categories).map((category) => ({ params: { category } }));
+}
+const { category } = Astro.params;
+const list = products.filter((p) => p.category === category);
+---
+<Base title={categories[category]}>
+  <h1>{categories[category]}</h1>
+  <Disclosure />
+  <div class="grid">{list.map((p) => <ProductCard product={p} />)}</div>
+</Base>

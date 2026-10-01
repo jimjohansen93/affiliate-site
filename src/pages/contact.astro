@@ -1,0 +1,8 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../site.config.mjs';
+---
+<Base title="Contact">
+  <h1>Contact</h1>
+  <p>Email: <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a></p>
+</Base>

@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../site.config.mjs';
+---
+<Base title="About" description={`Who runs ${site.name} and how we test tools.`}>
+  <h1>About {site.name}</h1>
+  <!-- TODO (Jim): write in your own words – who you are, why you run this site, how you test tools. -->
+  <p>{site.name} is run by {site.owner} from {site.country}. We write guides for people starting and growing an online creator business: email, courses, communities, social media and websites.</p>
+  <h2>How we review tools</h2>
+  <p>We only recommend tools we have signed up for and used ourselves. Every review lists the downsides as well as the upsides, and prices are checked against the vendor's own pricing page on the date shown in the article.</p>
+</Base>
