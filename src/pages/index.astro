@@ -1,8 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
 import { site } from '../site.config.mjs';
-import { getArticles, categories } from '../lib/data.js';
+import { getArticles, categories, products } from '../lib/data.js';
 const latest = (await getArticles()).slice(0, 6);
+const freeCount = products.filter((p) => p.freePlan).length;
 const ld = JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [
@@ -11,26 +13,48 @@ const ld = JSON.stringify({
   ],
 });
 ---
-<Base description={site.tagline}>
+<Base description={site.tagline} wide>
   <script slot="head" type="application/ld+json" set:html={ld} />
-  <section class="hero">
-    <p class="kicker">{site.name}</p>
-    <h1>Build your creator business with tools that don't eat your budget</h1>
-    <p class="lead">Honest, hands-on guides to email, course, community, Pinterest and website tools — free plans first, upgrades only when they pay for themselves.</p>
-    <p class="ctas"><a class="btn" href="/start-here/">Start here</a> <a class="btn ghost" href="/free-plans/">Free plans compared</a></p>
+  <section class="hero" slot="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <p class="kicker">Tools for lean creators</p>
+        <h1>Build your creator business without a pile of subscriptions</h1>
+        <p class="lead">Hands-on guides to email, course, community, Pinterest and website tools. Free plans first, upgrades only when they pay for themselves.</p>
+        <p class="ctas"><a class="btn accent" href="/start-here/">Start here →</a> <a class="btn ghost" href="/free-plans/">Compare free plans</a></p>
+      </div>
+      <div class="stack-visual" aria-hidden="true">
+        <div>Email list <span>free plan</span></div>
+        <div>Sales page <span>free plan</span></div>
+        <div>Pinterest <span>free</span></div>
+        <div>Course <span>when ready</span></div>
+      </div>
+    </div>
   </section>
 
   <h2>Who this is for</h2>
-  <p>Beginners and solo creators who want to sell digital products, grow an email list or start a newsletter — and would rather spend money on growth than on software they don't need yet.</p>
+  <div class="features">
+    <div class="card"><div class="icon"><Icon name="gift" /></div><h3>Selling digital products</h3><p>Ebooks, templates, checklists and courses — and the simplest way to sell your first one.</p></div>
+    <div class="card"><div class="icon"><Icon name="email-marketing" /></div><h3>Growing an email list</h3><p>Pick an email tool that fits today and won't trap you when your list grows.</p></div>
+    <div class="card"><div class="icon"><Icon name="pinterest" /></div><h3>Getting visitors for free</h3><p>Pinterest and search traffic that keeps working long after you publish.</p></div>
+  </div>
 
-  <h2>Latest guides</h2>
+  <div class="section-head"><h2>Latest guides</h2><a href="/guides/">All guides →</a></div>
   {latest.length
-    ? <ul>{latest.map((a) => <li><a href={`/${a.data.section}/${a.id}/`}>{a.data.title}</a></li>)}</ul>
-    : <p class="muted">The first hands-on guides are being tested and written. Meanwhile, see <a href="/free-plans/">which tools have a real free plan</a>.</p>}
+    ? <div class="grid">{latest.map((a) => <a class="card" href={`/${a.data.section}/${a.id}/`}><p class="meta">{a.data.section}</p><h3>{a.data.title}</h3></a>)}</div>
+    : <a class="card" href="/free-plans/"><p class="meta">While our first hands-on guides are being tested</p><h3>Free plans compared: {freeCount} creator tools you can start with for $0 →</h3></a>}
 
-  <h2>Browse tools</h2>
-  <div class="grid">{Object.entries(categories).map(([k, v]) => <a class="card" href={`/tools/${k}/`}>{v}</a>)}</div>
+  <div class="section-head"><h2>Browse tools</h2><a href="/tools/">All tools →</a></div>
+  <div class="grid cats">
+    {Object.entries(categories).map(([k, v]) => (
+      <a class="card" href={`/tools/${k}/`}><div class="icon"><Icon name={k} /></div><h3>{v}</h3><p class="meta">{products.filter((p) => p.category === k).map((p) => p.name).join(', ')}</p></a>
+    ))}
+  </div>
 
   <h2>How we work</h2>
-  <p>We sign up for the tools we write about and test them ourselves. Some links are advertising links, marked “(ad)” — <a href="/affiliate-disclosure/">here's how we make money</a>.</p>
+  <div class="features">
+    <div class="card"><div class="icon"><Icon name="check" /></div><h3>We test before we write</h3><p>We sign up for the tools ourselves and show what we found — including the downsides.</p></div>
+    <div class="card"><div class="icon"><Icon name="compass" /></div><h3>Prices checked at the source</h3><p>Plans and prices are checked on the vendor's own pricing page, with the date shown.</p></div>
+    <div class="card"><div class="icon"><Icon name="gift" /></div><h3>Open about money</h3><p>Some links are advertising links marked “(ad)”. <a href="/affiliate-disclosure/">Here's how we make money</a>.</p></div>
+  </div>
 </Base>

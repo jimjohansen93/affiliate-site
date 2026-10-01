@@ -1,9 +1,19 @@
 ---
 import AffLink from './AffLink.astro';
+import PlanBadge from './PlanBadge.astro';
+import { categories } from '../lib/data.js';
 const { product: p } = Astro.props;
 ---
-<div class="card">
-  <h3>{p.name}</h3>
-  <p class="muted">{p.priceFrom}</p>
-  <p><AffLink slug={p.slug} label={`Visit ${p.name}`} button /></p>
+<div class="card product">
+  <div class="top">
+    <div>
+      <h3>{p.name}</h3>
+      <p class="meta">{categories[p.category]}</p>
+    </div>
+    <PlanBadge product={p} />
+  </div>
+  {p.freePlan && <p class="free"><strong>Free:</strong> {p.freePlan.replace(/^Yes – /, '')}</p>}
+  {!p.freePlan && p.trial && <p class="free"><strong>Try it:</strong> {p.trial}</p>}
+  <p class="price">Paid from {p.priceFrom}</p>
+  <div class="actions"><AffLink slug={p.slug} label={`Visit ${p.name}`} button /></div>
 </div>

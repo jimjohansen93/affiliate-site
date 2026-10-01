@@ -5,9 +5,17 @@ export function getStaticPaths() {
   return Object.keys(SECTION_LABELS).map((section) => ({ params: { section } }));
 }
 const { section } = Astro.params;
+const INTRO = {
+  guides: 'Step-by-step guides for starting and growing an online creator business.',
+  best: 'Shortlists of the tools we would pick for a specific job, after testing them.',
+  comparisons: 'Two tools side by side, so you can pick the right one faster.',
+  alternatives: 'Cheaper or simpler options to the tools everyone talks about.',
+  reviews: 'In-depth, hands-on reviews: what works, what does not, and who it suits.',
+};
 const list = await getArticles(section);
 ---
 <Base title={SECTION_LABELS[section]}>
   <h1>{SECTION_LABELS[section]}</h1>
-  {list.length ? <ul>{list.map((a) => <li><a href={`/${section}/${a.id}/`}>{a.data.title}</a>{a.data.draft && ' (draft)'}</li>)}</ul> : <p class="muted">Nothing published here yet.</p>}
+  <p class="page-intro">{INTRO[section]}</p>
+  {list.length ? <ul class="list-links">{list.map((a) => <li><a href={`/${section}/${a.id}/`}>{a.data.title}{a.data.draft && ' (draft)'}</a></li>)}</ul> : <p class="card">Nothing published here yet. Meanwhile, see <a href="/free-plans/">which creator tools have a real free plan</a>.</p>}
 </Base>

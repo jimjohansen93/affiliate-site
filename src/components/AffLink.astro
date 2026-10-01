@@ -6,4 +6,4 @@ import { getProduct } from '../lib/data.js';
 const { slug, label, button = false } = Astro.props;
 const p = getProduct(slug);
 ---
-<a class:list={['aff', { btn: button }]} href={`/go/${p.slug}/`} rel="sponsored nofollow noopener" target="_blank" data-product={p.slug}>{label ?? p.name}</a><span class="ad-label" aria-label="advertising link">(ad)</span>
+<a class:list={['aff', { btn: button, small: button }]} href={`/go/${p.slug}/`} rel="sponsored nofollow noopener" target="_blank" data-product={p.slug}>{label ?? p.name}</a><span class="ad-label" aria-label="advertising link">(ad)</span>

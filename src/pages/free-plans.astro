@@ -2,35 +2,38 @@
 import Base from '../layouts/Base.astro';
 import Disclosure from '../components/Disclosure.astro';
 import AffLink from '../components/AffLink.astro';
+import PlanBadge from '../components/PlanBadge.astro';
+import Icon from '../components/Icon.astro';
 import { products, categories } from '../lib/data.js';
 const groups = Object.entries(categories)
-  .map(([k, label]) => ({ label, items: products.filter((p) => p.category === k) }))
+  .map(([k, label]) => ({ key: k, label, items: products.filter((p) => p.category === k) }))
   .filter((g) => g.items.length);
 const checked = products.map((p) => p.lastVerified).sort().at(-1);
 ---
 <Base title="Free Plans Compared: Creator Tools You Can Start With for $0"
-  description="Which creator tools have a real free plan? Email, course, community, social media and website tools compared, checked against each vendor's pricing page.">
+  description="Which creator tools have a real free plan? Email, course, community, social media and website tools compared, checked against each vendor's pricing page." wide>
   <h1>Free plans compared: creator tools you can start with for $0</h1>
   <Disclosure />
-  <p>Starting an online business doesn't have to start with subscriptions. This page lists which popular creator tools have a free plan, which only offer a trial, and what the cheapest paid plan costs.</p>
+  <p class="page-intro">Starting an online business doesn't have to start with subscriptions. This page lists which popular creator tools have a free plan, which only offer a trial, and what the cheapest paid plan costs.</p>
   <p class="muted">Every row was checked against the vendor's own pricing page on {checked}. Plans change often, so follow the “source” link before you decide.</p>
   {groups.map((g) => (
     <section>
-      <h2>{g.label}</h2>
-      <table>
-        <thead><tr><th>Tool</th><th>Free plan</th><th>Trial / guarantee</th><th>Paid from</th><th>Source</th></tr></thead>
+      <h2 class="cat-title"><span class="icon"><Icon name={g.key} /></span>{g.label}</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Tool</th><th>Plan type</th><th>Free plan</th><th>Trial / guarantee</th><th>Paid from</th><th>Source</th></tr></thead>
         <tbody>
           {g.items.map((p) => (
             <tr>
-              <td><AffLink slug={p.slug} /></td>
-              <td>{p.freePlan ?? 'No'}</td>
+              <td><strong><AffLink slug={p.slug} /></strong></td>
+              <td><PlanBadge product={p} /></td>
+              <td>{p.freePlan ? p.freePlan.replace(/^Yes – /, '') : '—'}</td>
               <td>{p.trial ?? '—'}</td>
               <td>{p.priceFrom}</td>
               <td><a href={p.pricingUrl} rel="nofollow noopener" target="_blank">pricing page</a></td>
             </tr>
           ))}
         </tbody>
-      </table>
+      </table></div>
     </section>
   ))}
   <h2>How to use free plans without getting stuck</h2>

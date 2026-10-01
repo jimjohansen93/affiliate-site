@@ -11,13 +11,13 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
-    "astro": "^7.3.5"
+    "astro": "^7.3.5",
+    "@fontsource/poppins": "^5.3.0"
   },
   "optionalDependencies": {
     "lightningcss-linux-x64-gnu": "^1.33.0"
   },
   "devDependencies": {
-    "@fontsource/poppins": "^5.3.0",
     "playwright-core": "^1.63.0"
   }
 }

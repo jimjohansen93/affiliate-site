@@ -1,0 +1,4 @@
+---
+const { product: p } = Astro.props;
+---
+{p.freePlan ? <span class="badge ok">Free plan</span> : p.trial ? <span class="badge warn">Trial only</span> : <span class="badge no">Paid only</span>}

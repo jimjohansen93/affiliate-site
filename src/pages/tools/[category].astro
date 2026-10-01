@@ -9,7 +9,8 @@ export function getStaticPaths() {
 const { category } = Astro.params;
 const list = products.filter((p) => p.category === category);
 ---
-<Base title={categories[category]}>
+<Base title={categories[category]} wide>
+  <p class="kicker"><a href="/tools/">Tools</a></p>
   <h1>{categories[category]}</h1>
   <Disclosure />
   <div class="grid">{list.map((p) => <ProductCard product={p} />)}</div>

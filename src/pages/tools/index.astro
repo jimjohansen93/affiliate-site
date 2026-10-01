@@ -1,10 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { categories, products } from '../../lib/data.js';
+import Icon from '../../components/Icon.astro';
 ---
-<Base title="Tools" description="Tools for creators, grouped by category.">
-  <h1>Tools</h1>
-  {Object.entries(categories).map(([k, v]) => (
-    <section><h2><a href={`/tools/${k}/`}>{v}</a></h2><p class="muted">{products.filter((p) => p.category === k).map((p) => p.name).join(', ')}</p></section>
-  ))}
+<Base title="Tools" description="Tools for creators, grouped by category." wide>
+  <h1>All tools</h1>
+  <p class="page-intro">The creator tools we cover, grouped by what they do.</p>
+  <div class="grid cats">{Object.entries(categories).map(([k, v]) => (
+    <a class="card" href={`/tools/${k}/`}><div class="icon"><Icon name={k} /></div><h3>{v}</h3><p class="meta">{products.filter((p) => p.category === k).map((p) => p.name).join(', ')}</p></a>
+  ))}</div>
 </Base>

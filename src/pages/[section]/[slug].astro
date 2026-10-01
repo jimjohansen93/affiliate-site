@@ -22,11 +22,12 @@ const articleLd = JSON.stringify({ '@context': 'https://schema.org', '@type': 'A
   {faqLd && <script slot="head" type="application/ld+json" set:html={faqLd} />}
   {d.draft && <p class="draft-banner">DRAFT – not published. Needs human review and first-hand testing.</p>}
   <article>
+    <p class="kicker"><a href={`/${d.section}/`}>{d.section}</a></p>
     <h1>{d.title}</h1>
     {items.length > 0 && <Disclosure />}
-    {d.updated && <p class="muted">Updated {d.updated.toISOString().slice(0, 10)}</p>}
+    <p class="byline">By {site.name}{d.updated && ` · Updated ${d.updated.toISOString().slice(0, 10)}`}{d.reviewedBy && ` · Tested by ${d.reviewedBy}`}</p>
     <Content />
     {items.length > 0 && (<><h2>Tools in this article</h2><div class="grid">{items.map((p) => <ProductCard product={p} />)}</div></>)}
-    {d.faq.length > 0 && (<><h2>FAQ</h2>{d.faq.map((f) => <><h3>{f.q}</h3><p>{f.a}</p></>)}</>)}
+    {d.faq.length > 0 && (<section class="faq"><h2>FAQ</h2>{d.faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}</section>)}
   </article>
 </Base>
